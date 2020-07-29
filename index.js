@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
-
 const api = require('./api');
 // const config = require('./config');
 const User = require('./db/user');
@@ -26,7 +25,7 @@ passport.use(
 			tokenURL: 'https://oauth.pipedrive.com/oauth/token',
 			clientID: '4193cb606f5e4903',
 			clientSecret: 'cf526e0fc714e275298e147c7055ac8a5fb6aa2f',
-			callbackURL: 'http://localhost:3000/auth/pipedrive/callback' 
+			callbackURL: 'https://brdsoftclientjs.herokuapp.com/auth/pipedrive/callback' 
 		}, async (accessToken, refreshToken, profile, done) => {
 			const userInfo = await api.getUser(accessToken);
 			console.log(userInfo);
@@ -64,7 +63,6 @@ app.get('/', async (req, res) => {
 	if (req.user.length < 1) {
 		return res.redirect('/auth/pipedrive');
 	}
-
 	try {
 		const deals = await api.getDeals(req.user[0].access_token);
 		res.render('deals', {
