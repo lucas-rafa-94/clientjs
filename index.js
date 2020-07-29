@@ -6,6 +6,7 @@ const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 const api = require('./api');
 // const config = require('./config');
 const User = require('./db/user');
+const domainUser = '';
 
 User.createTable();
 
@@ -32,6 +33,7 @@ passport.use(
 			console.log(accessToken);
 			console.log(refreshToken);
 			console.log(profile);
+			domainUser = userInfo.data.company_domain;
 			const user = await User.add(
 				userInfo.data.name,
 				accessToken,
@@ -63,11 +65,10 @@ app.get('/', async (req, res) => {
 		return res.redirect('/auth/pipedrive');
 	}
 	try {
-		const domain = 'https://' + req.user[0].company_domain;
-		console.log(domain);
+		console.log(domainUser);
 		res.render('index', {
 			name: req.user[0].username,
-			url: domain
+			url: 'https://' + domainUser
 		});
 	} catch (error) {
 		return res.send(error.message);
