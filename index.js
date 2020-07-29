@@ -12,7 +12,6 @@ const User = require('./db/user');
 User.createTable();
 
 const app = express();
-const port = 3000;
 
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", req.header('origin'));
@@ -87,4 +86,5 @@ app.get('/call', async (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`App listening on port ${port}`));
+app.listen(process.env.PORT || 3000, 
+	() => console.log("Server is running..."));
