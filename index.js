@@ -63,7 +63,8 @@ app.get('/', async (req, res) => {
 		return res.redirect('/auth/pipedrive');
 	}
 	try {
-		const domain = 'https://' + req.user[0].company_domain
+		const domain = 'https://' + req.user[0].company_domain;
+		console.log(domain);
 		res.render('index', {
 			name: req.user[0].username,
 			url: domain
