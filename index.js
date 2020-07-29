@@ -77,9 +77,8 @@ app.get('/', async (req, res) => {
 });
 app.get('/call', async (req, res) => {
 	console.log(req.header('Referer'));
-	alert('teste');
 	res.redirect(req.header('Referer'));
-	res.end();
+	alert('teste');
 });
 
 
