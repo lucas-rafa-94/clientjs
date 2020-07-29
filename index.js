@@ -78,6 +78,7 @@ app.get('/', async (req, res) => {
 });
 app.get('/call', async (req, res) => {
 	// console.log(req)
+	console.log(req.headers());
 	console.log(req.header('Referer'));
 	console.log(req.get('Referrer'))
 	console.log(req.get('origin'))
