@@ -1,4 +1,3 @@
-
 const alert = require('alert');
 const express = require('express');
 const path = require('path');
@@ -77,14 +76,10 @@ app.get('/', async (req, res) => {
 	}
 });
 app.get('/call', async (req, res) => {
-	// console.log(req)
-	console.log(req.headers);
 	console.log(req.header('Referer'));
-	console.log(req.get('Referrer'))
-	console.log(req.get('origin'))
 	alert('teste');
-	res.redirect('https://brasildenenvolvimentodesoftwares-sandbox.pipedrive.com/deal/9');
-	// res.end();
+	res.redirect(req.header('Referer'));
+	res.end();
 });
 
 
