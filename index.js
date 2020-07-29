@@ -6,7 +6,7 @@ const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
 const api = require('./api');
-const config = require('./config');
+// const config = require('./config');
 const User = require('./db/user');
 
 User.createTable();
@@ -26,9 +26,9 @@ passport.use(
 	new OAuth2Strategy({
 			authorizationURL: 'https://oauth.pipedrive.com/oauth/authorize',
 			tokenURL: 'https://oauth.pipedrive.com/oauth/token',
-			clientID: config.clientID || '',
-			clientSecret: config.clientSecret || '',
-			callbackURL: config.callbackURL || ''
+			clientID: '4193cb606f5e4903',
+			clientSecret: 'cf526e0fc714e275298e147c7055ac8a5fb6aa2f',
+			callbackURL: 'http://localhost:3000/auth/pipedrive/callback' 
 		}, async (accessToken, refreshToken, profile, done) => {
 			const userInfo = await api.getUser(accessToken);
 			console.log(userInfo);
