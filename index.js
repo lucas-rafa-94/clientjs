@@ -37,11 +37,11 @@ passport.use(
 				.catch((error) => {
 					console.error(error)
 			})
-			const user = await User.add(
-				userInfo.data.name,
-				accessToken,
-				refreshToken
-			);	
+			// const user = await User.add(
+			// 	userInfo.data.name,
+			// 	accessToken,
+			// 	refreshToken
+			// );	
 			done(null, { user });
 		}
 	)
