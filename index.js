@@ -6,7 +6,7 @@ const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 const api = require('./api');
 // const config = require('./config');
 const User = require('./db/user');
-const domainUser = '';
+var domainUser = '';
 
 User.createTable();
 
@@ -34,6 +34,7 @@ passport.use(
 			console.log(refreshToken);
 			console.log(profile);
 			domainUser = userInfo.data.company_domain;
+			console.log(domainUser);
 			const user = await User.add(
 				userInfo.data.name,
 				accessToken,
@@ -68,7 +69,7 @@ app.get('/', async (req, res) => {
 		console.log(domainUser);
 		res.render('index', {
 			name: req.user[0].username,
-			url: 'https://' + domainUser
+			url: domainUser
 		});
 	} catch (error) {
 		return res.send(error.message);
