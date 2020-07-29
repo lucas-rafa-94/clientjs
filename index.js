@@ -69,7 +69,7 @@ app.get('/', async (req, res) => {
 		console.log(domainUser);
 		res.render('index', {
 			name: req.user[0].username,
-			url: domainUser
+			url: 'https://' + domainUser
 		});
 	} catch (error) {
 		return res.send(error.message);
