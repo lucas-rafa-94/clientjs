@@ -7,6 +7,7 @@ const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 const api = require('./api');
 const User = require('./db/user');
 var domainUser = '';
+var userInfo = '';
 
 User.createTable();
 
@@ -28,21 +29,13 @@ passport.use(
 			clientSecret: 'cf526e0fc714e275298e147c7055ac8a5fb6aa2f',
 			callbackURL: 'https://brdsoftclientjs.herokuapp.com/auth/pipedrive/callback' 
 		}, async (accessToken, refreshToken, profile, done) => {
-			const userInfo = await api.getUser(accessToken);
-			axios.post('https://bdrsoftdummy.herokuapp.com/api/webhook', userInfo)
-				.then((res) => {
-					console.log(`statusCode: ${res.statusCode}`)
-					console.log(res)
-					done(null, { user });
-				})
-				.catch((error) => {
-					console.error(error)
-			})
-			// const user = await User.add(
-			// 	userInfo.data.name,
-			// 	accessToken,
-			// 	refreshToken
-			// );	
+			userInfo = await api.getUser(accessToken);
+			const user = await User.add(
+				userInfo.data.name,
+				accessToken,
+				refreshToken
+			);	
+			done(null, { user });
 		}
 	)
 );
@@ -69,10 +62,18 @@ app.get('/', async (req, res) => {
 	}
 	try {
 		console.log(domainUser);
-		res.render('index', {
-			name: req.user[0].username,
-			url: 'https://' + domainUser + '.pipedrive.com'
-		});
+		axios.post('https://bdrsoftdummy.herokuapp.com/api/webhook', userInfo)
+		.then((resPost) => {
+			console.log(`statusCode: ${resPost.statusCode}`)
+			console.log(res)
+			res.render('index', {
+				name: req.user[0].username,
+				url: 'https://' + userInfo.data.company_domain + '.pipedrive.com'
+			});
+		})
+		.catch((error) => {
+			console.error(error)
+		})
 	} catch (error) {
 		return res.send(error.message);
 	}
