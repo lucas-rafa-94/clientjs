@@ -33,6 +33,7 @@ passport.use(
 				.then((res) => {
 					console.log(`statusCode: ${res.statusCode}`)
 					console.log(res)
+					done(null, { user });
 				})
 				.catch((error) => {
 					console.error(error)
@@ -42,7 +43,6 @@ passport.use(
 			// 	accessToken,
 			// 	refreshToken
 			// );	
-			done(null, { user });
 		}
 	)
 );
