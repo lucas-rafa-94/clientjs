@@ -1,10 +1,10 @@
 const alert = require('alert');
+const axios = require('axios')
 const express = require('express');
 const path = require('path');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 const api = require('./api');
-// const config = require('./config');
 const User = require('./db/user');
 var domainUser = '';
 
@@ -29,12 +29,14 @@ passport.use(
 			callbackURL: 'https://brdsoftclientjs.herokuapp.com/auth/pipedrive/callback' 
 		}, async (accessToken, refreshToken, profile, done) => {
 			const userInfo = await api.getUser(accessToken);
-			console.log(userInfo);
-			console.log(accessToken);
-			console.log(refreshToken);
-			console.log(profile);
-			domainUser = userInfo.data.company_domain;
-			console.log(domainUser);
+			axios.post('http://localhost:8080/api/webhook', userInfo)
+				.then((res) => {
+					console.log(`statusCode: ${res.statusCode}`)
+					console.log(res)
+				})
+				.catch((error) => {
+					console.error(error)
+			})
 			const user = await User.add(
 				userInfo.data.name,
 				accessToken,
