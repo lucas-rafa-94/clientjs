@@ -36,8 +36,7 @@ passport.use(
 				userInfo.data.name,
 				accessToken,
 				refreshToken
-			);
-		    		
+			);	
 			done(null, { user });
 		}
 	)
@@ -64,10 +63,10 @@ app.get('/', async (req, res) => {
 		return res.redirect('/auth/pipedrive');
 	}
 	try {
-		const deals = await api.getDeals(req.user[0].access_token);
-		res.render('deals', {
+		const domain = 'https://' + req.user[0].company_domain
+		res.render('index', {
 			name: req.user[0].username,
-			deals: deals.data
+			url: domain
 		});
 	} catch (error) {
 		return res.send(error.message);
