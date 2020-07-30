@@ -29,6 +29,8 @@ passport.use(
 			clientSecret: 'cf526e0fc714e275298e147c7055ac8a5fb6aa2f',
 			callbackURL: 'https://brdsoftclientjs.herokuapp.com/auth/pipedrive/callback' 
 		}, async (accessToken, refreshToken, profile, done) => {
+			console.log(accessToken);
+			console.log(refreshToken);
 			userInfo = await api.getUser(accessToken);
 			const user = await User.add(
 				userInfo.data.name,
